@@ -8,8 +8,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';      
 import { Container, Card, CardContent, CardMedia, Typography, Grid, IconButton, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const User = () => {
+  const navigate = useNavigate();
   const { data } = useUserQuery();
   const [likes, setLikes] = useState({});
   const [userDelete] = useUserDeleteMutation();  
@@ -44,12 +46,13 @@ const User = () => {
   };
 
 const handleDelete = (id) => {
-  userDelete("users/" + id);
+  userDelete({ id });
   toast.error(`User with ID: ${id} is being deleted!`);
 }
-  const handleEdit = (userId) => {
-    toast.info(`User with ID: ${userId} is being edited!`);
-  };
+const handleEdit = (id) => {
+  navigate(`/dashboard`);
+}
+ 
 
   return (
     <Container sx={{ marginTop: 10 }}>
