@@ -1,3 +1,4 @@
+import { Details } from "@mui/icons-material";
 import { api } from "./index";
 
 const usersApi = api.injectEndpoints({
@@ -24,7 +25,14 @@ const usersApi = api.injectEndpoints({
          }),
          invalidatesTags: ["USERS"],
       }),
+      details: build.query({
+         query: (id) => ({
+            url: `users/${id}`,
+            method: "GET",
+         }),
+         providesTags: ["USERS"],
+      })
    }),
 });
 
-export const { useUserQuery, useUserDeleteMutation, useUserCreateMutation } = usersApi
+export const { useUserQuery, useUserDeleteMutation, useUserCreateMutation , useDetailsQuery} = usersApi

@@ -10,7 +10,7 @@ const { Title, Text } = Typography;
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [userLogin, { data, isSuccess }] = useUserLoginMutation();
+  const [userLogin, { data, isSuccess, isLoading }] = useUserLoginMutation();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -63,8 +63,8 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button className="w-full" type="primary" htmlType="submit">
-          Login
+        <Button className="w-full" type="primary" htmlType="submit" loading={isLoading}>
+          {isLoading ? "Loading..." : "Login"}
         </Button>
       </Form.Item>
 

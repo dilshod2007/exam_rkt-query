@@ -1,108 +1,89 @@
 import { Button, Form, Input, Typography, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {useUserSignUpMutation} from "../../../rudux/api/authApi"
-import {signUp} from "../../../rudux/slices/authslices"
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useUserSignUpMutation } from "../../../rudux/api/authApi";
+import { signUp } from "../../../rudux/slices/authslices";
 
 const { Title, Text } = Typography;
 
 const SignUp = () => {
-  const [userSignUp, { data, isSuccess }] = useUserSignUpMutation();
+  const [userSignUp, { data, isSuccess, isLoading }] = useUserSignUpMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const onFinish = (values) => {
     userSignUp(values);
-
   };
-  useEffect(()=>{
-    if(isSuccess){
-      dispatch(signUp({token:data.token}))
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(signUp({ token: data.token }));
       notification.success({
         message: "Successfully signed up! Go ahead 😊",
       });
-      navigate("/dashboard");
+      navigate("/");
     }
-
-  },[isSuccess])
-
- 
+  }, [isSuccess, data, dispatch, navigate]);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <Form
       className="p-4 w-full"
       name="basic"
       layout="vertical"
-      initialValues={{
-        remember: true,
-      }}
+      initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <Title level={2} className="text-center">
-        Sing Up
+        Sign Up
       </Title>
       <Form.Item
         label="Firstname"
         name="first_name"
-        rules={[
-          {
-            required: true,
-            message: "Please input your firstname!",
-          },
-        ]}
+        rules={[{ required: true, message: "Please input your firstname!" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item
         label="Username"
         name="username"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
+        rules={[{ required: true, message: "Please input your username!" }]}
       >
         <Input />
       </Form.Item>
-
       <Form.Item
         label="Password"
         name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
+        rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input.Password />
       </Form.Item>
-
       <Form.Item
         label="Photo URL"
         name="photo_url"
-        rules={[
-          {
-            required: true,
-            message: "Please input your photo url!",
-          },
-        ]}
+        rules={[{ required: true, message: "Please input your photo URL!" }]}
       >
         <Input type="url" />
       </Form.Item>
-
       <Form.Item>
-        <Button className="w-full" type="primary" htmlType="submit">
-          Sign Up
+        <Button
+          className="w-full"
+          type="primary"
+          htmlType="submit"
+          loading={isLoading}
+        >
+          {isLoading ? "Signing up..." : "Sign Up"}
         </Button>
       </Form.Item>
-      <Text>Alredy have an account? <Link to="/auth/login">Log in</Link></Text>
+      <Text>
+        Already have an account? <Link to="/auth/login">Log in</Link>
+      </Text>
     </Form>
   );
 };

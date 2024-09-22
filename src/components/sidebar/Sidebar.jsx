@@ -19,6 +19,8 @@ const Sidebar = () => {
     const { pathname } = useLocation();
 
     if (pathname.includes("auth") || pathname.includes("dashboard")) return null;
+    if (pathname.includes("/details")) return null;
+
 
     const onSearch = (value) => {
         console.log(value);
@@ -27,7 +29,11 @@ const Sidebar = () => {
     return (
         <div className=' sidebar flex items-center justify-between w-full p-4 shadow-lg sticky top-0 z-10'>
             <Link to='/'>
-                <h1 className='text-3xl font-bold text-blue-500'>DU</h1>
+               <div>
+                <span className='text-[40px] ml-[20px] ' > D</span>
+                <span className='text-[40px] ml-[-15px] ' >U</span>
+                <span className='text-[40px] ml-[-10px] ' >F</span>
+               </div>
             </Link>
 
             <div className='w-full max-w-lg mx-4'>

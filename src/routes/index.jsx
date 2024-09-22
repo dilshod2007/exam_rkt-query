@@ -7,6 +7,7 @@ const Signup = lazy(() => import("../routes/auth/signup/Signup"));
 const Dashboard = lazy(() => import("../routes/dashboard/Dashboard"));
 import { Spin } from 'antd';
 import { Link } from "react-router-dom";
+const Details = lazy(() => import("../routes/details/Details"));
 
 const SuspenseWithDelay = ({ children }) => {
   const [showLoading, setShowLoading] = useState(true);
@@ -69,6 +70,14 @@ const RouteController = () => {
           <Dashboard />
         </SuspenseWithDelay>
       ),
+    },
+    {
+ path: "/details/:id",
+ element: (
+   <SuspenseWithDelay>
+     <Details />
+   </SuspenseWithDelay>
+ )
     },
     {
       path: "*",
