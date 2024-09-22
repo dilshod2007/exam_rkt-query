@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDetailsQuery } from "../../rudux/api/userApi";
-import { Container, Grid, Typography, Button, Box } from '@mui/material';
+import { Container, Grid, Typography, Button, Box, CircularProgress } from '@mui/material';
 import { FaEnvelope, FaArrowLeft } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,8 +10,38 @@ import 'react-toastify/dist/ReactToastify.css';
 const Details = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useDetailsQuery(id);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
 
-  if (isLoading) return <div>Loading...</div>;
+  const handleGoBack = () => {
+    setIsButtonLoading(true);
+    setTimeout(() => {
+      window.history.back();
+    }, 1000);
+  };
+
+  if (isLoading) return (
+    <Box
+      sx={{
+        width: '100vw',
+        height: '100vh',
+        background: 'linear-gradient(270deg, #a2c4ff, #f8f9fc)',
+        backgroundSize: '400% 400%',
+        animation: 'backgroundAnimation 8s ease infinite',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        '@keyframes backgroundAnimation': {
+          '0%': { backgroundPosition: '0% 0%' },
+          '50%': { backgroundPosition: '100% 100%' },
+          '100%': { backgroundPosition: '0% 0%' },
+        },
+        overflow: 'hidden',
+      }}
+    >
+      <CircularProgress size={60} color="primary" />
+    </Box>
+  );
+
   if (isError) {
     toast.error('Error fetching user details!');
     return <div>Error loading user details.</div>;
@@ -77,16 +107,21 @@ const Details = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => window.history.back()}
-                    startIcon={<FaArrowLeft />}
+                    onClick={handleGoBack}
+                    startIcon={isButtonLoading ? null : <FaArrowLeft />}
                     sx={{
                       backgroundColor: '#2575fc',
                       padding: '10px 20px',
                       fontSize: '16px',
                       fontWeight: 'bold',
+                      position: 'relative',
                     }}
                   >
-                    Go Back
+                    {isButtonLoading ? (
+                      <CircularProgress size={24} color="inherit" />
+                    ) : (
+                      'Go Back'
+                    )}
                   </Button>
                 </Box>
               </Grid>

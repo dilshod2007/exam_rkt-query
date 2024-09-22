@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AudioOutlined } from '@ant-design/icons';
+import { AudioOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import { useLocation } from 'react-router-dom';
-import "../sidebar/sidebar.css"
 
 const { Search } = Input;
 const suffix = (
@@ -21,19 +20,18 @@ const Sidebar = () => {
     if (pathname.includes("auth") || pathname.includes("dashboard")) return null;
     if (pathname.includes("/details")) return null;
 
-
     const onSearch = (value) => {
         console.log(value);
     };
 
     return (
-        <div className=' sidebar flex items-center justify-between w-full p-4 shadow-lg sticky top-0 z-10'>
-            <Link to='/'>
-               <div>
-                <span className='text-[40px] ml-[20px] ' > D</span>
-                <span className='text-[40px] ml-[-15px] ' >U</span>
-                <span className='text-[40px] ml-[-10px] ' >F</span>
-               </div>
+        <div className='sidebar flex items-center justify-between w-full p-4 shadow-md sticky top-0 z-10 bg-[rgba(238,230,230,0.218)]'>
+            <Link to='/' className='flex items-center'>
+                <div className='text-[40px] ml-4 flex items-center'>
+                    <span className='text-blackml-4'>D</span>
+                    <span className='text-black ml-[-10px]'>U</span>
+                    <span className='text-black ml-[-10px]'>F</span>
+                </div>
             </Link>
 
             <div className='w-full max-w-lg mx-4'>
@@ -49,10 +47,16 @@ const Sidebar = () => {
 
             <ul className='flex space-x-6'>
                 <li>
-                    <Link className='text-blue-500 hover:text-blue-700' to='/auth/login'>Login</Link>
+                    <Link className='flex items-center text-blue-500 hover:text-blue-700' to='/auth/login'>
+                        <LoginOutlined className='mr-1' />
+                        Login
+                    </Link>
                 </li>
                 <li>
-                    <Link className='text-blue-500 hover:text-blue-700' to='/auth/signup'>Signup</Link>
+                    <Link className='flex items-center text-blue-500 hover:text-blue-700' to='/auth/signup'>
+                        <UserAddOutlined className='mr-1' />
+                        Signup
+                    </Link>
                 </li>
             </ul>
         </div>
